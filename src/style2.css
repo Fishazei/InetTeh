@@ -1,0 +1,58 @@
+body {
+  background: linear-gradient(rgba(0,0,0,.5),rgba(200,200,200,.5)), url(../src/never.gif);
+  padding: 0 24px;
+  margin: 0;
+  height: 100vh;
+  color: black;
+}
+.form {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+  border-radius: 10px;
+	transform: translate(-50%,-50%);
+	background: rgba(0,0,0,.7);
+}
+
+.form h1 {
+	margin: 30px 100px;
+	padding: 0;
+	text-align: center;
+	color: #fff;
+	font-size: 30px;
+	text-transform: uppercase;
+}
+
+.input-form {
+	margin: 15px 40px;
+	text-align: center;
+}
+
+.input-form input {
+	padding: 10px;
+	width: 100%;
+	color: #fff;
+	font-size: 20px;
+	background: none;
+	outline: none;
+	border: 1px solid #fff;
+	box-sizing: border-box;
+}
+
+.input-form input[type="text"]:focus, .input-form input[type="password"]:focus {
+	border: 1px solid #C7A757;
+}
+
+.input-form input[type="submit"] {
+	margin-top: 20px;
+	color: black;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: none;
+	background: #8E7024;
+	transition: .3s;
+}
+
+.input-form input[type="submit"]:hover {
+	background: #C7A757;
+}

@@ -1,0 +1,48 @@
+::-webkit-scrollbar {
+    width: 0;
+}
+/**/
+body {
+  background: #FFD373;
+  display: flex;
+  justify-content: center;
+}
+/*Шапка*/
+.navbar {
+    background: #FFB000;   /*цвет шапки*/
+    color: black;
+}
+/*Общий контейнер*/
+.content {
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    background: #fdc75d;
+    /*Размеры области, важны для*/
+    height: 100vh;
+    width: 700px;
+}
+/*Для элементов записи */
+.shrift1 {
+    font-size: 20px;
+    width: 400px;
+    word-wrap: break-word;
+    color: white;
+}
+/*Запись из списка для скрола*/
+.post {
+    background: #565656;
+    height: 320px;
+    width: 440px;
+    margin: 15px;
+    padding: 10px;
+    word-wrap: break-word;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/**/
+.post1 {
+    margin-top: 85px;
+    text-align: center;
+}
