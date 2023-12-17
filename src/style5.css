@@ -1,0 +1,88 @@
+::-webkit-scrollbar {
+    width: 0;
+}
+body {
+    background: #FFD373;
+    display: flex;
+    justify-content: center;
+  }
+  /*Шапка*/
+  .navbar {
+      background: #FFB000;   /*цвет шапки*/
+      color: black;
+      text-align: center;
+  }
+  .container {
+    padding: 5px;
+  }
+  button {
+    background: #FFB000;
+    border-color: #cd8c00;
+  }
+  button:hover{
+    background: #cd8c00;
+  }
+  .main-content{
+    margin-top: 100px;
+  }
+
+#addOrderForm,
+#editOrderForm {
+  background: #FFB000;   
+  margin: 15px;
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+}
+
+#addOrderForm label,
+#editOrderForm label{
+  width: 110px;
+  margin-bottom: 8px;
+}
+
+#addOrderForm input,
+#editOrderForm input {
+  width: 80%;
+  padding: 5px;
+  margin-bottom: 12px;
+}
+
+#addOrderForm button, 
+#editOrderForm button{
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#addOrderForm button:hover,
+#editOrderForm button:hover {
+  background-color: #45a049;
+}
+
+.validation-error {
+    color: red;
+    font-size: 12px;
+    margin-left: 5px; 
+    display: inline-block; 
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 100px;
+  }
+    
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+    
+  th {
+    background-color: #f2f2f2;
+  }
