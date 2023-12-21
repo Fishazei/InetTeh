@@ -1,16 +1,20 @@
 //Заказы
 let orders = [];
+let closedOrder = [];
 
 let ordersTable;
 
 const addButton = document.getElementById('addButton');
-const mainContent = document.getElementById("main-content");
+const historyButton = document.getElementById('historyButton');
 const firstMain = document.querySelector("main");
 
-function renderOrdersTable() {
+function renderOrdersTable(showHistory = false) {
+  const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = '';
   
-    if (orders.length > 0) {
+    const ordersToDisplay = showHistory ? closedOrders : orders;
+
+    if (ordersToDisplay.length > 0) {
         const table = document.createElement('table');
         const headerRow = table.insertRow();
         
@@ -22,7 +26,7 @@ function renderOrdersTable() {
             headerRow.appendChild(th);
         });
     
-        orders.forEach(order => {
+        ordersToDisplay.forEach(order => {
             const row = table.insertRow();
             Object.keys(order).forEach(key => {
                 const cell = row.insertCell();
@@ -39,23 +43,21 @@ function renderOrdersTable() {
             ${`<button data-id="${order.id}" onclick="deleteOrder(this)">У</button>`}
             ${`<button data-id="${order.id}" onclick="closeOrder(this)">З</button>`}
           `;
-
         });
 
         mainContent.appendChild(table);
     }
-}
-  
+} 
 function goHome() {
     document.location.href = "index.html";
 }
-
 ////Добавление заказа
 function showAddOrderForm() {
     const addOrderForm = document.querySelector('form');
     addOrderForm.style.display = addOrderForm.style.display == 'block'? 'none' : 'block'; 
-  }
-  function addOrder() {
+    firstMain.style.display = addOrderForm.style.display == 'block'? 'block' : 'none';
+}
+function addOrder() {
     clearValidationMessages();
   
     const cardNumberInput = document.getElementById('cardNumber');
@@ -98,7 +100,8 @@ function showAddOrderForm() {
       renderOrdersTable();
   
       document.getElementById('addOrderForm').style.display = 'none';
-  
+      firstMain.style.display = document.getElementById('editOrderForm') === null ? 'none' 
+                                : document.getElementById('editOrderForm').style.display == 'none'? 'none' : 'block';
       clearFormInputs();
     }
 }
@@ -116,11 +119,18 @@ function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
   return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
-
+function deleteOrder(button) {
+  const userId = button.getAttribute('data-id');
+  const index = orders.findIndex(order => order.id == userId);
+  if (index !== -1) {
+      orders.splice(index, 1);
+      renderOrdersTable();
+  }
+}
 function updateOrder() {
   clearValidationMessages();
-  const userId = document.getElementById('editOrderForm').dataset.userId;
-  const index = orders.findIndex(order => order.id == userId);
+  
+  firstMain.style.display = document.getElementById('addOrderForm').style.display == 'none'? 'none' : 'block';
 
   const editCardNumberInput = document.getElementById('editCardNumber');
   const editAmountInput = document.getElementById('editAmount');
@@ -165,8 +175,7 @@ function updateOrder() {
           renderOrdersTable();
       }
   }
-}
-  
+} 
 function displayValidationMessage(inputElement, message) {
     const errorContainer = document.createElement('div');
     errorContainer.className = 'error-container';
@@ -178,21 +187,18 @@ function displayValidationMessage(inputElement, message) {
     errorContainer.appendChild(errorLabel);
     inputElement.insertAdjacentElement('afterend', errorContainer);
 }
-  
 function clearValidationMessages() {
     const errorContainers = document.querySelectorAll('.error-container');
     errorContainers.forEach(errorContainer => {
       errorContainer.remove();
     });
 }
-  
 function clearFormInputs() {
     document.getElementById('cardNumber').value = '';
     document.getElementById('amount').value = '';
     document.getElementById('clientName').value = '';
     document.getElementById('comment').value = '';
 }
-
 document.addEventListener("DOMContentLoaded", function () {
 
   const storedOrders = localStorage.getItem("orders");
@@ -203,26 +209,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   renderOrdersTable();
 });
-
 window.addEventListener("beforeunload", function () {
   localStorage.setItem("orders", JSON.stringify(orders));
 });
-
 function editOrder(button) {
   const userId = button.getAttribute('data-id');
   const orderToEdit = orders.find(order => order.id == userId);
 
   if (orderToEdit) {
       const editOrderForm = createEditForm(orderToEdit);
-      const mainContent = document.getElementById('main-content');
-
       const previousEditForm = document.getElementById('editOrderForm');
       if (previousEditForm) {
           previousEditForm.remove();
       }
 
       firstMain.appendChild(editOrderForm);
-      
+      firstMain.style.display = 'block';
   }
 };
 function createEditForm(order) {
@@ -250,4 +252,37 @@ function createEditForm(order) {
   `;
 
   return form;
+};
+function closeOrder(button) {
+  const userId = button.getAttribute('data-id');
+  const orderToClose = orders.find(order => order.id == userId);
+
+  if (orderToClose) {
+      orders = orders.filter(order => order.id != userId);
+
+      const closedOrder = { ...orderToClose, id: orderToClose.id };
+      closedOrders.push(closedOrder);
+
+      renderOrdersTable();
+  }
+}
+
+let history = false;
+
+function toggleOrderHistory() {
+  
+  history = !history;
+
+  if (history) {
+      renderOrdersTable(false);
+      historyButton.innerText = 'История заказов';
+      historyButton.dataset.historyVisible = 'false';
+      searchInput.removeAttribute('hidden');
+  } else {
+      renderOrdersTable(true);
+      historyButton.innerText = 'Вернуться';
+      historyButton.dataset.historyVisible = 'true';
+      searchInput.value = '';
+      searchInput.setAttribute('hidden', 'true');
+  }
 };

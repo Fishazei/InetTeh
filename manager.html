@@ -22,13 +22,14 @@
             <div>
                 <button onclick="goHome()">Домой</button>
                 <button id="addButton" onclick="showAddOrderForm()">Добавить заказ</button>
+                <button id="historyButton" onclick="toggleOrderHistory()">Закрытые заказы</button>
                 <input type="text" id="searchInput" placeholder="Введите номер заказа" oninput="searchOrders()">
             </div>
         </div>
     </nav>  
 
-    <!-- Основной блок, где будут отображаться заказы -->
-    <main style="width: 25%">
+    <!-- Основной блок, где будут отображаться формы создания и редактирования -->
+    <main style="width: 25%; display: none;" >
         <!-- Форма создания нового заказа -->
         <form id="addOrderForm" style="display: none; margin-top: 100px; padding: 10px;" >
             <h2 style="font-size: 20px">Добавить новый заказ</h2>
@@ -47,8 +48,11 @@
             
             <button type="button" onclick="addOrder()">Добавить заказ</button>
         </form>
+        <!-- Место для формы редактирования -->
+
     </main>
 
+    <!-- Место для таблицы заказов -->
     <main id="main-content">
 
     </main>
